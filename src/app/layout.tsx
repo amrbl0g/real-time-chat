@@ -1,3 +1,5 @@
+import { ConvexClientProvider } from "@/components/ConvexClientProvider";
+import { getToken } from "@/lib/auth-server";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -6,17 +8,18 @@ export const metadata: Metadata = {
   description: "Real-time chat app.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const token = await getToken();
   return (
-    <html lang="en">
-      <body
-        className={`antialiased`}
-      >
-        {children}
+    <html>
+      <body>
+        <ConvexClientProvider initialToken={token}>
+          {children}
+        </ConvexClientProvider>
       </body>
     </html>
   );
